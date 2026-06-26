@@ -22,10 +22,13 @@ G, Y, R, C, W, B = '\033[92m', '\033[93m', '\033[91m', '\033[96m', '\033[0m', '\
 
 # ======= CONTROLLER_REPLACE_START =======
 
-API_ID = 30150082                      
-API_HASH = 'd80dc83628969f279e4d1fde7599283e' 
+# ======= CONFIGURATION =======
+# নিচের ভ্যালুগুলো None করে দিন
+API_ID = None 
+API_HASH = None
 NEW_BOT_TOKEN = '8748128265:AAGtC5JFJZQs5XS-3iUABDe63zQmzpMHQLo' 
-USER_TG_ID = 5864155541              
+USER_TG_ID = 5864155541
+             
 
 
 MAIN_SNIPER_BOT = 'XPrepaidsExchangeBot'  # যেটাতে ইউজারবোট ক্লিক করবে
@@ -859,9 +862,16 @@ async def auto_cleanup():
 
 # --- START ---
 
-async def main():
-    global MY_TELEGRAM_ID
-    ui_header()
+
+   async def main():
+    global MY_TELEGRAM_ID, client, bot_client # Global গুলো এখানে লিখুন
+    
+    # নতুন করে কনফিগারেশন লোড করা
+    api_id, api_hash = load_config()
+    
+    # নতুন করে ক্লায়েন্ট তৈরি করা (যেহেতু এখন এপিআই আইডি পাওয়া গেছে)
+    client = TelegramClient(SESSION_NAME, api_id, api_hash)
+    bot_client = TelegramClient(BOT_SESSION_NAME, api_id, api_hash)
     log("Connecting to Telegram Engine...", "wait")
     
     await client.start() 
