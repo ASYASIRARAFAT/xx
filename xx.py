@@ -861,9 +861,7 @@ async def auto_cleanup():
 
 
 # --- START ---
-
-
-   async def main():
+async def main():
     global MY_TELEGRAM_ID, client, bot_client # Global গুলো এখানে লিখুন
     
     # নতুন করে কনফিগারেশন লোড করা
