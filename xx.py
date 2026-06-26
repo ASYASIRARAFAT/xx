@@ -22,12 +22,7 @@ G, Y, R, C, W, B = '\033[92m', '\033[93m', '\033[91m', '\033[96m', '\033[0m', '\
 
 # ======= CONTROLLER_REPLACE_START =======
 
-# ======= CONFIGURATION =======
-# নিচের ভ্যালুগুলো None করে দিন
-API_ID = None 
-API_HASH = None
-NEW_BOT_TOKEN = '8748128265:AAGtC5JFJZQs5XS-3iUABDe63zQmzpMHQLo' 
-USER_TG_ID = 5864155541
+# ======= CONFIGURATION ======
              
 
 
@@ -51,27 +46,34 @@ def ui_header():
 
 
 
+def load_config():
+    if os.path.exists("config.txt"):
+        with open("config.txt", "r") as f:
+            lines = [line.strip() for line in f.readlines() if line.strip()]
+            if len(lines) >= 2:
+                return int(lines[0]), lines[1]
+    
+    ui_header()
+    print(f"🟡 [ALERT] Enter API details to continue:")
+    api_id = input(f"Enter API ID: ").strip()
+    api_hash = input(f"Enter API Hash: ").strip()
+    
+    with open("config.txt", "w") as f:
+        f.write(f"{api_id}\n{api_hash}")
+    return int(api_id), api_hash
+
+
 
 # 🛠️ নতুন নিখুঁত লাইন:
-
-SESSION_NAME = f"cloned_bots/session_{USER_TG_ID}"
-
-BOT_SESSION_NAME = f"cloned_bots/bot_ctrl_{USER_TG_ID}"
-
-
-
-client = TelegramClient(SESSION_NAME, API_ID, API_HASH)
-
-bot_client = TelegramClient(BOT_SESSION_NAME, API_ID, API_HASH) # <─── একদম ক্লিন ও এররমুক্ত
-
-
+API_ID, API_HASH = load_config()
+client = TelegramClient('v21_session', API_ID, API_HASH)
+bot_client = TelegramClient('bot_session', API_ID, API_HASH)
 
 
 
 # --- GLOBAL STATE ---
 
 targets = [] 
-
 min_bal = 1.0   
 
 max_bal = 30.0
